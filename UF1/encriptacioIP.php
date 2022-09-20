@@ -120,16 +120,17 @@
              # cada codi ASCII que pertany a cada lletra del text convertit l'hi apliquem aquesta operació
             for ($i = 0 ; $i < count($textAscii) ; $i++) {
 
-                #aquest serveix per controlar si una de les poscions de la ip es 0 aplicar una funcio diferent 
+                #aquest if serveix per controlar si una de les poscions de la ip es 0 aplicar una funcio diferent 
                 if( $clau[$posicioIp] != 0 ) {
-                    
-                    
+
                     $textConvertit[$i] = base64_encode(($textAscii[$i] * $clau[$posicioIp]) * 2);
 
                     #amb l'if controlo que la posico vagi de 0 a 3 per no pasarse de posico a 
                     if( $posicioIp == 3){
+
                         $posicioIp = 0;
                     } else {
+
                         $posicioIp++;
                     }
                 } else{
@@ -137,8 +138,10 @@
                     #en cas que que la poscio de l'ip sigui 0 nomes faig el seu doble
                     $textConvertit[$i] = base64_encode(($textAscii[$i] * ($clau[$posicioIp] +1) ) * 2);
                     if( $posicioIp == 3){
+
                         $posicioIp = 0;
                     } else {
+
                         $posicioIp++;
                     }
                 }
@@ -164,11 +167,11 @@
            
             # obtenim les posicions de la IP
             $clau = explode('.' , $ipClau);
-           
             $valorsAscii = [];
+
              for ($i = 0 ; $i < count($arrayTextEncriptat) ; $i++) {
                 
-                #aquest serveix per controlar si una de les poscions de la ip es 0 aplicar una funcio diferent 
+                #aquest if serveix per controlar si una de les poscions de la ip es 0 aplicar una funcio diferent 
                 if( $clau[$posicioIp] != 0 ) {
                    
                     #paso de base64 al valor resultat de l'operacio amb l'ip
@@ -186,8 +189,10 @@
                     $valorDecode = intval(base64_decode($arrayTextEncriptat[$i])); 
                     $valorsAscii[$i] = ($valorDecode / 2) / ($clau[$posicioIp] + 1); 
                     if( $posicioIp == 3){
+
                         $posicioIp = 0;
                     } else {
+                        
                         $posicioIp++;
                     }
                 }
