@@ -10,10 +10,6 @@
     
 
 <?php
-
-   
-
-
     function arrayOposats() {
 
         $lletresOposades = [ " " => " " ];
@@ -28,9 +24,10 @@
         
     }
 
+    $arrayOposats = arrayOposats();
+
     function retornaOposats($lletres){
 
-            $arrayOposats = arrayOposats();
 
             for ($i = 0 ; $i < strlen($lletres) ; $i++){
 
