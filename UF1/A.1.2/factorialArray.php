@@ -10,8 +10,6 @@
 
     <?php
 
-        #Funcio que fa el factorial de qualsevol número
-         
         function factorial($numero){
             if($numero < 0) 
                 return false;
@@ -36,7 +34,8 @@
             return $array;
         }
         
-        
+        print_r(factorialArray([1 , 2 , 3]))
+         
     ?>
 
 
