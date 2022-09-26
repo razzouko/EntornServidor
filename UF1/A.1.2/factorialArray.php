@@ -21,11 +21,11 @@
     
         function factorialArray($array) : array | bool{
 
-            if(  is_array($array) != true ) 
+            if(is_array($array)) 
                 return false;
       
             for( $i = 0 ; $i < count($array) ; $i++ ){
-                if (is_numeric($array[$i]) != true)
+                if (is_numeric($array[$i]))
                     return false;
                 $array[$i] = factorial($array[$i]);
                 if ($array[$i] == false)
