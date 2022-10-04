@@ -8,11 +8,22 @@
 <body>
     <div class="container"> 
         <form action="" name="calc" class="calculator" method = "post">
-            <input type="text" class="value" name="screen" readonly value="<?php $_POST["btn"] != "="? construirOperacio(): ferCalcul()  ?>"/>
-            <span class="num"><input type ="submit" value="(" name=  "btn"></span>
-            <span class="num"><input type ="submit" value=")" name = "btn"></span>
-            <span class="num"><input type ="submit" value="sin" name = "btn" ></span>
-            <span class="num"><input type ="submit" value="cos" name = "btn"></span>
+            <input type="text" class="value"  name="screen" readonly value="
+            <?php
+            
+            if(isset($_POST["ultimValor"])){
+                $ultimValor = $_POST["ultimValor"];
+            }else{
+                $ultimValor = "";
+            } 
+            echo ferCalcul(); 
+            $ultimValor = $_POST["btn"]; 
+            ?>"/>
+            <input type="hidden" name="ultimValor" value=" <?php echo $ultimValor; ?> ">
+            <span class="num"><input type ="submit" value="(" name ="btn"></span>
+            <span class="num"><input type ="submit" value=")" name ="btn"></span>
+            <span class="num"><input type ="submit" value="sin" name ="btn" ></span>
+            <span class="num"><input type ="submit" value="cos" name ="btn"></span>
             <span class="num clear"><input type ="submit" value="C" name = "btn"></span>
             <span class="num"><input type ="submit" value="/" name=  "btn"></span>
             <span class="num"><input type ="submit" value="*" name = "btn"></span>
@@ -37,12 +48,34 @@
         
             function ferCalcul(){
 
+                if($ultimValor == ""){
+                    return "noup";
+                }else{
+                    return "funciona";
+                }
+
+                if( !isset($_POST["btn"]) || !isset($_POST["screen"]))
+                    return"";
+
+                if($_POST["btn"] == "C")
+                    return;
+    
+                if($_POST["btn"] != "="){
+                    if( $ultim )
+                        if(preg_match('/^[\+|\-|\*|\/]$/' , substr($_POST["screen"] , -1)) 
+                            && preg_match('/^[\+|\-|\*|\/]$/' ,$_POST["btn"])){
+                                return substr_replace($_POST["screen"] , $_POST["btn"] , -1 , 1);
+                            }elseif($_POST["btn"] == "sin" || $_POST["btn"] == "cos"){
+                                return $_POST["screen"] . $_POST["btn"] . "(";
+                            }
+                        return $_POST["screen"] . $_POST["btn"];
+                }
+
                 // protegir el codi de l'eval
                 if($_POST["btn"] == "="){
                     $operacio = $_POST["screen"];
                     try{
-                        eval("\$resultat = " . $operacio . ";");
-                        //s'ha de fer un trim pel tema dels decimals
+                        eval("\$resultat = round(" . $operacio . " , 4);");
                         return $resultat;
                     }catch(DivisionByZeroError $e){
                         return "Inf";                    
@@ -52,42 +85,6 @@
                     return $resultat;
                 }      
             }
-
-            function construirOperacio(){
-
-                if($_POST["btn"] == "C")
-                return;
-
-                if($_POST["btn"] != "="){
-                    if(preg_match('/^[\+|\-|\*|\/]$/' , substr($_POST["screen"] , -1)) 
-                        && preg_match('/^[\+|\-|\*|\/]$/' ,$_POST["btn"])){
-                            return substr_replace($_POST["screen"] , $_POST["btn"] , -1 , 1);
-                        }
-                        return $_POST["screen"] . $_POST["btn"];
-                    }
-                
-            }
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         ?>
 
