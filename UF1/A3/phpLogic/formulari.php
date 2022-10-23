@@ -1,9 +1,9 @@
 <?php 
 include("helper.php");
 if(!isset($_COOKIE['sessionid'])){
-    if(isset($_GET["data"]))
-        setDateRand(date( "ymd", $_GET["data"]));
-    else 
+    if(isset($_GET["data"])){
+        setDateRand(date( "ymd", strtotime($_GET["data"])));
+    }else 
         setDateRand(date("ymd"));
     srand(time());
     $id = rand();
@@ -16,9 +16,12 @@ if(!isset($_COOKIE['sessionid'])){
 }else{
     session_id($_COOKIE["sessionid"]);
     session_start();
+    if(isset($_GET["data"])){
+        setDateRand(date( "ymd", strtotime($_GET["data"])));
+        carregarValorsNous($_SESSION["funcions"]);
+    }
     if($_SESSION["date"] < date("y-m-d"))
         carregarValorsNous($_SESSION["funcions"]);
-
 }
 
 if($_SERVER["REQUEST_METHOD"] == 'GET'){
@@ -42,15 +45,24 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
 
     <?php 
 
-
+        /**
+         * Funció que obté les lletres i funcions vàlides i les carregar-les a la sessió.
+         * @param array Funcions que comprovar
+         */
         function carregarValorsNous($funcions){
             
             $lletresIFuncions = obtenirFuncionsValides($funcions);
-            $_SESSION["lletres"] = $lletresIFuncions[0];
-            $_SESSION["funcionsValides"] = $lletresIFuncions[1];
+            $_SESSION["lletraMig"] = $lletresIFuncions[0];
+            $_SESSION["lletres"] = $lletresIFuncions[1];
+            $_SESSION["funcionsValides"] = $lletresIFuncions[2];
             $_SESSION["encertades"] = [];
             $_SESSION["numeroEncertades"] = 0;
-            $_SESSION["date"] = date("y-m-d");
+    
+            if(isset($_GET["data"])){
+                $_SESSION["date"] = date( "y-m-d", strtotime($_GET["data"]));
+            }else{
+                $_SESSION["date"] = date( "y-m-d");
+            }
 
         }
 
@@ -59,14 +71,14 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
 
 
 
-<body data-joc="2022-10-07">
-<form action="process.php" method="POST">
+<body data-joc=<?php echo $_SESSION["date"]?>>
+<form id="phplogic" action="process.php" method="POST">
 <div class="main">
     <h1>
         <a href=""><img src="logo.png" height="54" class="logo" alt="PHPlògic"></a>
     </h1>
     <div class="container-notifications">
-        <p class="hide" id="message" hidden = "false">HAS FALLAT</p>
+        <p class="hide" id="message" hidden><?php echo (isset($_SESSION["missatgeError"])) ? $_SESSION["missatgeError"] : "" ?></p>
     </div>
     <div class="cursor-container">
         <input id ="funcioProva" name="paraula" type="text" hidden>
@@ -85,7 +97,10 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
                 <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletres"][2] ?>' draggable="false"><p><?php echo $_SESSION["lletres"][2] ?></p></a></div>
             </li>
             <li class="hex">
-                <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletres"][3] ?>' draggable="false" id="center-letter"><p><?php echo $_SESSION["lletres"][3] ?></p></a></div>
+                <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletraMig"] ?>' draggable="false" id="center-letter"><p><?php echo $_SESSION["lletraMig"] ?></p></a></div>
+            </li>
+            <li class="hex">
+                <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletres"][3] ?>' draggable="false"><p><?php echo $_SESSION["lletres"][3] ?></p></a></div>
             </li>
             <li class="hex">
                 <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletres"][4] ?>' draggable="false"><p><?php echo $_SESSION["lletres"][4] ?></p></a></div>
@@ -94,13 +109,13 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
                 <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletres"][5] ?>' draggable="false"><p><?php echo $_SESSION["lletres"][5] ?></p></a></div>
             </li>
             <li class="hex">
-                <div class="hex-in"><a class="hex-link" data-lletra='<?php echo $_SESSION["lletres"][6] ?>' draggable="false"><p><?php echo $_SESSION["lletres"][6] ?></p></a></div>
+                <div class="hex-in"><a class="hex-link" data-lletra='_' draggable="false"><p>_</p></a></div>
             </li>
         </ul>
     </div>
     <div class="button-container">
         <button id="delete-button" type="button" title="Suprimeix l'última lletra" onclick="suprimeix()"> Suprimeix</button>
-        <button id="shuffle-button" type="button" class="icon" aria-label="Barreja les lletres" title="Barreja les lletres">
+        <button id="shuffle-button" type="submit" name="barrejar" value="shuffle" class="icon" aria-label="Barreja les lletres" title="Barreja les lletres">
             <svg width="16" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg"
                  viewBox="0 0 512 512">
                 <path fill="currentColor"
@@ -110,15 +125,26 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
         <button id="submit-button" type="submit" title="Introdueix la paraula" name ="introdueix">Introdueix</button>
     </div>
     <div class="scoreboard">
-        <div>Has trobat <span id="letters-found"><?php echo $_SESSION["numeroEncertades"]?></span> <span id="found-suffix">funcions</span><span id="discovered-text">.</span>
-        <label> <?php 
+        <div>Has trobat <span id="letters-found"><?php
         
-                    if(count($_SESSION["encertades"]) > 0 ){
-                        echo "<br>";
-                        foreach($_SESSION["encertades"] as $encertada){
-                            echo $encertada . ",";
+        if(isset($_GET["neteja"])){
+            $_SESSION["numeroEncertades"] = 0;
+            echo $_SESSION["numeroEncertades"];
+        }else
+            echo $_SESSION["numeroEncertades"];
+        
+        ?></span> <span id="found-suffix">funcions</span><span id="discovered-text">.</span>
+        <label> <?php 
+                    if(isset($_GET["neteja"])){
+                        $_SESSION["encertades"] = [];
+                    }else{
+                        if(count($_SESSION["encertades"]) > 0 ){
+                            echo "<br>";
+                            foreach($_SESSION["encertades"] as $encertada){
+                                echo $encertada . ",";
+                            }
                         }
-                    }
+                }
         ?></label>
     </div>
         <div id="score"></div>
@@ -144,13 +170,22 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
 
     window.onload = () => {
         // Afegeix funcionalitat al click de les lletres
+        document.addEventListener('keydown', (event) => {
+            if (event.key === "Enter") {
+                document.getElementById("phplogic").submit();
+            afegeixLletra(event.key);
+            } else if(event.key === "Backspace"){
+                suprimeix();
+            }else{
+                afegeixLletra(event.key);
+            }
+        })
         Array.from(document.getElementsByClassName("hex-link")).forEach((el) => {
             el.onclick = ()=>{afegeixLletra(el.getAttribute("data-lletra"))}
         })
         if(document.getElementById("encertada").value == "False"){
             document.getElementById("message").hidden = false;
             setTimeout(amagaError, 2000);
-
         }
         
         //Anima el cursor
@@ -161,15 +196,6 @@ if($_SERVER["REQUEST_METHOD"] == 'GET'){
         }, 500)
     }
 </script>
-
-
-
-<?php 
-
-
-
-?>
-
 
 
 </body>
