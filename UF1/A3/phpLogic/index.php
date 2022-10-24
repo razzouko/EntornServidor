@@ -1,95 +1,83 @@
 
 <?php 
 
-    /*session_id(45);
-    session_start();
-    if(!isset($_SESSION["funcionsValides"]))
-        $_SESSION["funcionsValides"] = obtenirFuncions();
+function setDateRand($date){
 
+    srand($date);
 
-    $funcions = $_SESSION["funcionsValides"];
-*/
-    
-    srand(time());
-    function generarLletres() : array{
+}
 
-        $lletres = [];
-        do{
-            $aleatori = chr(rand(97 , 122));
-            if(!in_array($aleatori, $lletres)){
-                $lletres[] = $aleatori;
-            }
-    
-        }while(count($lletres) < 7);
-        $lletres[] = "_";
+function generarLletres() : array{
 
-        for ($i=1; $i < 10 ; $i++) { 
-            $lletres[] = strval($i);
+    $lletres = [];
+    do{
+        $aleatori = chr(rand(97 , 122));
+        if(!in_array($aleatori, $lletres)){
+            $lletres[] = $aleatori;
         }
-        return $lletres;
 
-    }
+    }while(count($lletres) < 7);
+    $lletres[] = "_";
     
-    
+    return $lletres;
 
-    function obtenirFuncions(){
+}
 
-        $funcions = get_defined_functions()["internal"];
-        $funcionsAComprovar = [];
 
-        for ($i=0; $i < count($funcions) ; $i++) { 
 
-            $caracDiferents = count_chars($funcions[$i] , 3);
-            if(strlen($caracDiferents) <= 8){
-                $funcionsAComprovar[] = $funcions[$i]; 
-            }
-        }    
-
-        return $funcionsAComprovar;
-    }
-
+function obtenirFuncions(){
 
     $funcions = get_defined_functions()["internal"];
+    $funcionsAComprovar = [];
 
-    function obtenirFuncionsValides($funcions){
-        
-        do{
-            $lletres = generarLletres();
-            $lletresAleatories = $lletres;
-            $funcionsValides = [];
-            for ($i=0; $i < count($funcions) ; $i++) {
-                if($funcions[$i] == "_"){
-                    break;
-                } 
-                $caracters = str_split($funcions[$i] , 1);
+    for ($i=0; $i < count($funcions) ; $i++) { 
+
+        $caracDiferents = count_chars($funcions[$i] , 3);
+        if(strlen($caracDiferents) <= 8){
+            $funcionsAComprovar[] = $funcions[$i]; 
+        }
+    }
+
+    return $funcionsAComprovar;
+}
+
+
+
+function obtenirFuncionsValides($funcions){
+    
+    
+    do{
+        $lletres = generarLletres();
+        $lletraMig = $lletres[0];
+        $lletresAleatories = $lletres;
+        $funcionsValides = [];
+        for ($i=0; $i < count($funcions) ; $i++) {
+            if($funcions[$i] == "_"){
+                break;
+            } 
+            $caracters = str_split($funcions[$i] , 1);
+            
+            if(in_array($lletraMig, $caracters)){
                 $diferents = array_diff($caracters , $lletresAleatories);
                 if(count($diferents) == 0){
                     $funcionsValides[] = $funcions[$i];
                 }
-
-                if(count($funcionsValides) >= 10)
-                    break;
             }
-        }while(count($funcionsValides) < 10);
-
-        
-    $repeticionsLletra = [];
-    foreach($funcionsValides as $nom){
-        foreach(count_chars($nom , 1) as $lletra => $repeticions){
-            if(isset($repeticionsLletra[chr($lletra)]))
-                $repeticionsLletra[chr($lletra)] += $repeticions;
-            else 
-                $repeticionsLletra[chr($lletra)] = $repeticions;
+            if(count($funcionsValides) >= 10)
+                break;
         }
-    }
-        
-    return array_search(max($repeticionsLletra) , $repeticionsLletra);
-       
-    }
+    }while(count($funcionsValides) < 10);
 
-    $funcionsValides = obtenirFuncionsValides($funcions);
+    unset($lletres[array_search("_", $lletres)]);
+    unset($lletres[array_search($lletraMig, $lletres)]);
+    shuffle($lletres);
+    return $lletres;
 
-     echo $funcionsValides;
+}
+
+    $funcionsValides = obtenirFuncions();
+    $prova = obtenirFuncionsValides($funcionsValides);
+    echo print_r($prova);
 
 
 ?>

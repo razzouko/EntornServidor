@@ -1,12 +1,21 @@
 <?php 
 
 
-
+/**
+ * Entrada una data s'aplica a la llavor del random
+ * @param date    
+ * 
+ */ 
 function setDateRand($date){
 
     srand($date);
 
 }
+
+/**
+ * Funcio que retorna lletres aleatories segons la data
+ * @return array Lletres aleatories
+ */ 
 
 function generarLletres() : array{
 
@@ -19,17 +28,18 @@ function generarLletres() : array{
 
     }while(count($lletres) < 7);
     $lletres[] = "_";
-
-    for ($i=1; $i < 10 ; $i++) { 
-        $lletres[] = strval($i);
-    }
+    
     return $lletres;
 
 }
 
 
-
-function obtenirFuncions(){
+/**
+ * Funcio que comprova i retorna funcions de php amb menys de 9 lletres diferents 
+ * comptan la barra baixa
+ * @return array Funcions amb menys de 8 caràcters diferents
+ */ 
+function obtenirFuncions() : array{
 
     $funcions = get_defined_functions()["internal"];
     $funcionsAComprovar = [];
@@ -46,13 +56,17 @@ function obtenirFuncions(){
 }
 
 
-
-function obtenirFuncionsValides($funcions){
+/**
+ * 
+ * @param array Funcions a comprovar
+ * @return array `[0] = Lletra del mig , [1] = Lletres aletories , [2] Funcions amb les que jugar
+ */ 
+function obtenirFuncionsValides(array $funcions) : array{
     
     
     do{
         $lletres = generarLletres();
-        
+        $lletraMig = $lletres[0];
         $lletresAleatories = $lletres;
         $funcionsValides = [];
         for ($i=0; $i < count($funcions) ; $i++) {
@@ -60,18 +74,23 @@ function obtenirFuncionsValides($funcions){
                 break;
             } 
             $caracters = str_split($funcions[$i] , 1);
-            $diferents = array_diff($caracters , $lletresAleatories);
-            if(count($diferents) == 0){
-                $funcionsValides[] = $funcions[$i];
+            
+            if(in_array($lletraMig, $caracters)){
+                $diferents = array_diff($caracters , $lletresAleatories);
+                if(count($diferents) == 0){
+                    $funcionsValides[] = $funcions[$i];
+                }
             }
-
             if(count($funcionsValides) >= 10)
                 break;
         }
     }while(count($funcionsValides) < 10);
 
+    unset($lletres[array_search("_", $lletres)]);
+    unset($lletres[array_search($lletraMig, $lletres)]);
+    shuffle($lletres);
 
-    return [$lletres , $funcionsValides];
+    return [$lletraMig , $lletres , $funcionsValides];
 }
 
 
