@@ -1,17 +1,11 @@
 <?php
-if(isset($_COOKIE["PHPSESSID"])){ 
-    ini_set('session.gc_maxlifetime', 60);
-    ini_set('session.cookie_lifetime', 60);
-    session_start();
-    $_SESSION["ip"] = $_SERVER["REMOTE_ADDR"];
-    $_SESSION["data"] = date("y-m-d h:i:s", time());
-    if(isset($_SESSION["correuUsuari"]))
-        header("Location: hola.php");
-}else {
-    ini_set('session.gc_maxlifetime', 60);
-    ini_set('session.cookie_lifetime', 60);
-    session_start();
-}
+
+ini_set('session.gc_maxlifetime', 60);
+ini_set('session.cookie_lifetime', 60);
+session_start();
+if(isset($_SESSION["correuUsuari"]))
+    header("Location: hola.php");
+
 
 ?>
 
@@ -28,6 +22,8 @@ if(isset($_COOKIE["PHPSESSID"])){
 
 </head>
 <body>
+
+
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             <form action="process.php" method="POST">
@@ -37,7 +33,7 @@ if(isset($_COOKIE["PHPSESSID"])){
                 <input type="text" placeholder="Nom" name="nomUsuari" />
                 <input type="email" placeholder="Correu electronic" name="correuUsuari" />
                 <input type="password" placeholder="Contrasenya" name="contrasenyaUsuari" />
-                <button>Registra't</button>
+                <button>Registrat</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -48,6 +44,7 @@ if(isset($_COOKIE["PHPSESSID"])){
                 <input type="email" placeholder="Correu electronic" name ="correuUsuari"/>
                 <input type="password" placeholder="Contrasenya" name ="contrasenyaUsuari" />
                 <button>Inicia la sessió</button>
+                <span id="msgError" <?php echo (isset($_GET["errorInici"]))? "": "hidden" ?>><label><?php echo (isset($_GET["errorInici"]))?  $_GET["errorInici"]: "" ?> </label></span>
             </form>
         </div>
         <div class="overlay-container">
@@ -61,6 +58,7 @@ if(isset($_COOKIE["PHPSESSID"])){
                     <h1>Primera vegada per aquí?</h1>
                     <p>Introdueix les teves dades i crea un nou compte d'usuari</p>
                     <button class="ghost" id="signUp">Registra't</button>
+                <span id="msgError" <?php echo (isset($_GET["errorRegistre"]))? "": "hidden" ?>><label><?php echo (isset($_GET["errorRegistre"]))?  $_GET["errorRegistre"]: "" ?> </label></span>
                 </div>
             </div>
         </div>
@@ -71,12 +69,16 @@ if(isset($_COOKIE["PHPSESSID"])){
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
 
-    signUpButton.addEventListener('click', () => {
+
+        signUpButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
     });
 
     signInButton.addEventListener('click', () => {
         container.classList.remove("right-panel-active");
     });
+
+    
+
 </script>
 </html>

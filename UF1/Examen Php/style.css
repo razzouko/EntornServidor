@@ -5,6 +5,17 @@
     box-sizing: border-box;
 }
 
+#msgError{
+    background-color: red;
+    border: 1px solid #eee ;
+    border-radius: 20px;
+    margin: 15px;
+}
+
+#msgError > label{
+    color: #eee;
+    margin: 50px;
+}
 body {
     background: #f6f5f7;
     display: flex;
