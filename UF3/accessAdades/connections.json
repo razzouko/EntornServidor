@@ -1,0 +1,20 @@
+[
+    {
+        "ip": "::1",
+        "user": "aniol@example.com",
+        "time": "2022-11-07 16:19:28",
+        "status": "signin_email_error"
+    },
+    {
+        "ip": "::1",
+        "user": "aniol@example.com",
+        "time": "2022-11-07 16:19:39",
+        "status": "signup_success"
+    },
+    {
+        "ip": "::1",
+        "user": "aniol@example.com",
+        "time": "2022-11-07 16:19:44",
+        "status": "logoff"
+    }
+]

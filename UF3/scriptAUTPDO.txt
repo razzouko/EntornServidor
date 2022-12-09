@@ -1,0 +1,15 @@
+create table dades_usuaris (
+	email		varchar(255)	,
+	password	varchar(255)	,
+	name		varchar(255)	
+)
+
+
+create table connexions_usuaris(
+	ip 		varchar(255)	,
+	user		varchar(255)	,
+	time 		datetime	,
+	status		varchar(255)
+)
+
+alter table dades_usuaris add constraint pk_email primary key (email);
