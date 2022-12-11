@@ -20,7 +20,21 @@
             return [$this->nom , $this->amo , $this->raça , $this->imatge_url];
         }
 
+        function getNom(){
+            return $this->nom;
+        }
 
+        function getAmo(){
+            return $this->amo;
+        }
+
+        function getRaça(){
+            return $this->raça;
+        }
+
+        function getImatgeUrl(){
+            return $this->imatge_url;
+        }
 
     } 
 
