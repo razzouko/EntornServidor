@@ -26,7 +26,7 @@
             votNou($_SESSION["usuari"] , $_POST["seleccio"] , $fase);
         
             
-        header("Location: http://localhost/MP07/UF3/concurs/index.php");
+        header("Location: index.php");
 
     }
 
