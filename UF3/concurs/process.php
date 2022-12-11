@@ -5,12 +5,12 @@
     // comprovar fase
 
     switch($_SERVER["REQUEST_METHOD"]){
-        case 'GET' : header("Location: http://localhost/entornservidor/concurs/index.php");
+        case 'GET' : header("Location: http://localhost/MP07/UF3/concurs/index.php");
         case 'POST' :
             if($_SESSION["Fase"] != "inactiva"){
                 treballarPost();
             }else{
-                header("Location: http://localhost/entornservidor/concurs/index.php");
+                header("Location: http://localhost/MP07/UF3/concurs/index.php");
             };
     }
     
@@ -26,7 +26,7 @@
             votNou($_SESSION["usuari"] , $_POST["seleccio"] , $fase);
         
             
-        header("Location: http://localhost/entornservidor/concurs/index.php");
+        header("Location: http://localhost/MP07/UF3/concurs/index.php");
 
     }
 

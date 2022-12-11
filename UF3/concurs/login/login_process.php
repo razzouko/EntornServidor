@@ -16,11 +16,11 @@
             $_SESSION["usuari"] = $_POST["nom"];
             $_SESSION["login_time_stamp"] = time();
             if($usuari["tipus"] == "admin")
-                header("Location: http://localhost/entornservidor/concurs/admin.php");
+                header("Location: http://localhost/MP07/UF3/concurs/admin.php");
             else    
-                header("Location: http://localhost/entornservidor/concurs/index.php");
+                header("Location: http://localhost/MP07/UF3/concurs/index.php");
         }else 
-            header("Location: http://localhost/entornservidor/concurs/login/login.php?error=Dades Incorrectes");
+            header("Location: http://localhost/MP07/UF3/concurs/login/login.php?error=Dades Incorrectes");
 
 
     }
@@ -33,9 +33,9 @@
                 afegirUsuari($_POST["nom"], $_POST["password"] , $_POST["tipus"]);
                 $_SESSION["usuari"] = $_POST["nom"];
                 $_SESSION["login_time_stamp"] = time();
-                header("Location: http://localhost/entornservidor/concurs/index.php");
+                header("Location: http://localhost/MP07/UF3/concurs/index.php");
             }else
-                header("Location: http://localhost/entornservidor/concurs/login/login.php?error=Usuari ja existeix");
+                header("Location: http://localhost/MP07/UF3/concurs/login/login.php?error=Usuari ja existeix");
 
     }
 

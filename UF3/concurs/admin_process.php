@@ -4,7 +4,7 @@
     
 
     switch($_SERVER["REQUEST_METHOD"]){
-        case 'GET' : header("Location: http://localhost/entornservidor/concurs/login/login.php");
+        case 'GET' : header("Location: http://localhost/MP07/UF3/concurs/login/login.php");
         case 'POST' : treballarPost();
     }
 
@@ -20,7 +20,7 @@
                     afegirUsuari($_POST["nom"], isset($_POST["password"]) , $_POST["tipus"]);
                     //header("Location: http://localhost/entornservidor/concurs/admin.php");
                 }else 
-                    header("Location: http://localhost/entornservidor/concurs/admin.php?errorUsuari= Usuari ja existeix");
+                    header("Location: http://localhost/MP07/UF3/concurs/admin.php?errorUsuari= Usuari ja existeix");
      
         }
 
@@ -29,26 +29,26 @@
                 $modificat = modificarData($_POST["dataInici"] , $_POST["dataFi"] , $_POST["numeroFase"]);
 
                 if($modificat){
-                    header("Location: http://localhost/entornservidor/concurs/admin.php");
+                    header("Location: http://localhost/MP07/UF3/concurs/admin.php");
                 }else   
-                    header("Location: http://localhost/entornservidor/concurs/admin.php?errorData= Dates incorrectes");
+                    header("Location: http://localhost/MP07/UF3/concurs/admin.php?errorData= Dates incorrectes");
                 
         }
 
         if (isset($_POST["editarGos"])) {
 
             modificarGos($_POST["nomAnterior"] , $_POST["nom"], $_POST["amo"] , $_POST["imatge"] , $_POST["raça"] );
-            header("Location: http://localhost/entornservidor/concurs/admin.php");
+            header("Location: http://localhost/MP07/UF3/concurs/admin.php");
         }
 
         if(isset($_POST["borrarVots"])){
             eliminarVotsFase($_POST["numeroFase"]);
-            header("Location: http://localhost/entornservidor/concurs/admin.php");
+            header("Location: http://localhost/MP07/UF3/concurs/admin.php");
         }
 
         if(isset($_POST["borrarTotsElsVots"])){
             eliminarTotsElsVots();
-            header("Location: http://localhost/entornservidor/concurs/admin.php");
+            header("Location: http://localhost/MP07/UF3/concurs/admin.php");
         }
     }
 

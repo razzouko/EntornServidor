@@ -6,11 +6,11 @@
 session_start();
 
     if (!isset($_SESSION["usuari"]))
-        header("Location: http://localhost/entornservidor/concurs/login/login.php");
+        header("Location: http://localhost/MP07/UF3/concurs/login/login.php");
     elseif( $_SESSION["usuari"] != "admin") 
-        header("Location: http://localhost/entornservidor/concurs/index.php");
+        header("Location: http://localhost/MP07/UF3/concurs/index.php");
     elseif (time() - $_SESSION["login_time_stamp"] > 60)
-        header("Location: http://localhost/entornservidor/concurs/index.php");
+        header("Location: http://localhost/MP07/UF3/concurs/index.php");
 
     $nomFase = obtenirFaseActual();
     $fase = new Fase("Fase 1"); // mostrar gossos de la fase

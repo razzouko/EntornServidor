@@ -4,9 +4,9 @@
     session_start();
 
     if (!isset($_SESSION["usuari"])){
-        header("Location: http://localhost/entornservidor/concurs/login/login.php");
+        header("Location: http://localhost/MP07/UF3/concurs/login/login.php");
     } elseif( time() - $_SESSION["login_time_stamp"] > 60 ) {
-        header("Location: http://localhost/entornservidor/concurs/login/login.php");
+        header("Location: http://localhost/MP07/UF3/concurs/login/login.php");
     }
 
     // calcular per dies la fase actual, si no estas dins una fase no deixa votar
