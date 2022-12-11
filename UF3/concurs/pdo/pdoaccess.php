@@ -9,8 +9,8 @@ function getConnection(){
     try{
         $hostname = "localhost";
         $dbname = "concurs";
-        $username = "osama";
-        $pw = "osama";
+        $username = "dwes-user";
+        $pw = "dwes-pass";
         $dbh = new PDO("mysql:host=$hostname;dbname=$dbname;" , "$username" , "$pw");
     } catch(PDOException $ex){
         echo "Error al fer la connexió amb la base de dades: ". $ex->getMessage();

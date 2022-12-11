@@ -2,9 +2,9 @@
     session_start();
 
     if (!isset($_SESSION["usuari"])){
-        header("Location: http://localhost/entornservidor/concurs/login/login.php");
+        header("Location: login/login.php");
     } elseif( time() - $_SESSION["login_time_stamp"] > 60 ) {
-        header("Location: http://localhost/entornservidor/concurs/login/login.php");
+        header("Location: login/login.php");
     }
 
 ?>

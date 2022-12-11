@@ -4,7 +4,7 @@
     
 
     switch($_SERVER["REQUEST_METHOD"]){
-        case 'GET' : header("Location: http://localhost/MP07/UF3/concurs/login/login.php");
+        case 'GET' : header("Location: login/login.php");
         case 'POST' : treballarPost();
     }
 
